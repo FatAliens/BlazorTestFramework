@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace SuperTest.Models
 {
-    [Serializable]
     public class Variant
     {
         public string Content { get; set; }

@@ -1,7 +1,4 @@
 ﻿@page "/"
-@using System.Xml
-@using System.Xml.Serialization
-@using System.IO 
 
 <Container Fluid>
     @if (questions != null && !isResult)
@@ -82,7 +79,7 @@
     else
     {
         <Heading Size="HeadingSize.Is1">
-            Loading XML...
+            Загружаем вопросы...
         </Heading>
     }
 </Container>
@@ -116,40 +113,12 @@
         }
     }
 
-    private List<Question> questions;
-    private List<Result> results;
+
 
     private Question selectedQuestion;
 
-    private string questionsURL = "./xml/questions.xml";
-    private string resultsURL = "./xml/results.xml";
-
     protected override async Task OnInitializedAsync()
     {
-        //var stream = await client.GetStreamAsync(questionsURL);
-
-        var reader = new StringReader(questionsXML);
-
-
-        var serializer = new XmlSerializer(typeof(List<Question>));
-        questions = (List<Question>)serializer.Deserialize(reader);
-
-        reader.Close();
-
-        //stream.Close();
-
-        //stream = await client.GetStreamAsync(resultsURL);
-
-        reader = new StringReader(resultsXML);
-
-        serializer = new XmlSerializer(typeof(List<Result>));
-        results = (List<Result>)serializer.Deserialize(reader);
-
-        reader.Close();
-
-        //stream.Close();
-
-
         string debug = "";
         foreach (var question in questions)
         {
@@ -188,313 +157,269 @@
 
     }
 
-    string questionsXML = @"<?xml version='1.0' encoding='utf-8'?>
-<ArrayOfQuestion xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
-<Question>
-<Title>
-Характер
-</Title>
-<Id>1</Id>
-<Content>
-Ты по характеру…
-</Content>
-<Variants>
-<Variant>
-<Content>
-  Милый(-ая) и застенчивый(-ая)
-</Content>
-<Id>1</Id>
-</Variant>
-<Variant>
-<Content>
-  Смелый(-ая) и преданный(-ая)
-</Content>
-<Id>2</Id>
-</Variant>
-<Variant>
-<Content>
-  Веселый(-ая) и общительный(-ая)
-</Content>
-<Id>3</Id>
-</Variant>
-<Variant>
-<Content>
-  Замкнутый(-ая) и колкий(-ая)
-</Content>
-<Id>4</Id>
-</Variant>
-<Variant>
-<Content>
-  Спокойный(-ая) и ответственный(-ая)
-</Content>
-<Id>5</Id>
-</Variant>
-<Variant>
-<Content>
-  Упорный(-ая) и независимый(-ая)
-</Content>
-<Id>6</Id>
-</Variant>
-</Variants>
-</Question>
-<Question>
-<Title>
-Учеба
-</Title>
-<Id>2</Id>
-<Content>
-Как ты относишься к учебе?
-</Content>
-<Variants>
-<Variant>
-<Content>
-  Я стараюсь следить за оценками, учусь хорошо
-</Content>
-<Id>1</Id>
-</Variant>
-<Variant>
-<Content>
-  Я хоть и стараюсь, но оставляю время для более важного
-</Content>
-<Id>2</Id>
-</Variant>
-<Variant>
-<Content>
-  Мне плевать на учебу
-</Content>
-<Id>3</Id>
-</Variant>
-<Variant>
-<Content>
-  Учеба даётся мне с трудом
-</Content>
-<Id>4</Id>
-</Variant>
-<Variant>
-<Content>
-  Я отличник(-ца) без всяких усилий
-</Content>
-<Id>5</Id>
-</Variant>
-<Variant>
-<Content>
-  Я хорошо учусь только по интересным для меня предметам
-</Content>
-<Id>6</Id>
-</Variant>
-</Variants>
-</Question>
-<Question>
-<Title>
-Цвет
-</Title>
-<Id>3</Id>
-<Content>
-Какой из перечисленных цветов тебе нравится больше?
-</Content>
-<Variants>
-<Variant>
-<Content>
-  Розовый
-</Content>
-<Id>1</Id>
-</Variant>
-<Variant>
-<Content>
-  Глубой
-</Content>
-<Id>2</Id>
-</Variant>
-<Variant>
-<Content>
-  Желтый
-</Content>
-<Id>3</Id>
-</Variant>
-<Variant>
-<Content>
-  Пурпурный
-</Content>
-<Id>4</Id>
-</Variant>
-<Variant>
-<Content>
-  Фиолотовый
-</Content>
-<Id>5</Id>
-</Variant>
-<Variant>
-<Content>
-  Зеленый
-</Content>
-<Id>6</Id>
-</Variant>
-</Variants>
-</Question>
-<Question>
-<Title>
-Лучшая
-черта
-</Title>
-<Id>4</Id>
-<Content>
-Какая твоя лучшая черта характера?
-</Content>
-<Variants>
-<Variant>
-<Content>
-  Доброта
-</Content>
-<Id>1</Id>
-</Variant>
-<Variant>
-<Content>
-  Смелость
-</Content>
-<Id>2</Id>
-</Variant>
-<Variant>
-<Content>
-  Чувство юмора
-</Content>
-<Id>3</Id>
-</Variant>
-<Variant>
-<Content>
-  Независимость
-</Content>
-<Id>4</Id>
-</Variant>
-<Variant>
-<Content>
-  Спокойствие
-</Content>
-<Id>5</Id>
-</Variant>
-<Variant>
-<Content>
-  Упорство
-</Content>
-<Id>6</Id>
-</Variant>
-</Variants>
-</Question>
-<Question>
-<Title>
-Худшая
-черта
-</Title>
-<Id>5</Id>
-<Content>
-А какая черта худшая?
-</Content>
-<Variants>
-<Variant>
-<Content>
-  Робость
-</Content>
-<Id>1</Id>
-</Variant>
-<Variant>
-<Content>
-  Самовлюбленность
-</Content>
-<Id>2</Id>
-</Variant>
-<Variant>
-<Content>
-  Безалаберность
-</Content>
-<Id>3</Id>
-</Variant>
-<Variant>
-<Content>
-  Ранимость
-</Content>
-<Id>4</Id>
-</Variant>
-<Variant>
-<Content>
-  Холодность
-</Content>
-<Id>5</Id>
-</Variant>
-<Variant>
-<Content>
-  Нетерпеливость
-</Content>
-<Id>6</Id>
-</Variant>
-</Variants>
-</Question>
-</ArrayOfQuestion>";
+    private List<Question> questions = new List<Question>()
+    {
+        new Question()
+        {
+            Title = "Характер",
+            Id = "1",
+            Content = "Ты по характеру…",
+            Variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Content = "Милый(-ая) и застенчивый(-ая)",
+                    Id = "1"
+                },
+                new Variant()
+                {
+                    Content = "Смелый(-ая) и преданный(-ая)",
+                    Id = "2"
+                },
+                new Variant()
+                {
+                    Content = "Веселый(-ая) и общительный(-ая)",
+                    Id = "3"
+                },
+                new Variant()
+                {
+                    Content = "Замкнутый(-ая) и колкий(-ая)",
+                    Id = "4"
+                },
+                new Variant()
+                {
+                    Content = "Спокойный(-ая) и ответственный(-ая)",
+                    Id = "5"
+                },
+                new Variant()
+                {
+                    Content = "Упорный(-ая) и независимый(-ая)",
+                    Id = "6"
+                },
+            }
+        },
+        new Question()
+        {
+            Title = "Учеба",
+            Id = "2",
+            Content = "Как ты относишься к учебе?",
+            Variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Content = "Я стараюсь следить за оценками, учусь хорошо",
+                    Id = "1"
+                },
+                new Variant()
+                {
+                    Content = "Я хоть и стараюсь, но оставляю время для более важного",
+                    Id = "2"
+                },
+                new Variant()
+                {
+                    Content = "Мне плевать на учебу",
+                    Id = "3"
+                },
+                new Variant()
+                {
+                    Content = "Учеба даётся мне с трудом",
+                    Id = "4"
+                },
+                new Variant()
+                {
+                    Content = "Я отличник(-ца) без всяких усилий",
+                    Id = "5"
+                },
+                new Variant()
+                {
+                    Content = "Я хорошо учусь только по интересным для меня предметам",
+                    Id = "6"
+                },
+            }
+        },
+        new Question()
+        {
+            Title = "Цвет",
+            Id = "3",
+            Content = "Какой из перечисленных цветов тебе нравится больше?",
+            Variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Content = "Розовый",
+                    Id = "1"
+                },
+                new Variant()
+                {
+                    Content = "Голубой",
+                    Id = "2"
+                },
+                new Variant()
+                {
+                    Content = "Желтый",
+                    Id = "3"
+                },
+                new Variant()
+                {
+                    Content = "Пурпурный",
+                    Id = "4"
+                },
+                new Variant()
+                {
+                    Content = "Фиолетовый",
+                    Id = "5"
+                },
+                new Variant()
+                {
+                    Content = "Зеленый",
+                    Id = "6"
+                },
+            }
+        },
+        new Question()
+        {
+            Title = "Лучшая\nчерта",
+            Id = "4",
+            Content = "Какая твоя лучшая черта характера?",
+            Variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Content = "Доброта",
+                    Id = "1"
+                },
+                new Variant()
+                {
+                    Content = "Смелость",
+                    Id = "2"
+                },
+                new Variant()
+                {
+                    Content = "Чувство юмора",
+                    Id = "3"
+                },
+                new Variant()
+                {
+                    Content = "Независимость",
+                    Id = "4"
+                },
+                new Variant()
+                {
+                    Content = "Спокойствие",
+                    Id = "5"
+                },
+                new Variant()
+                {
+                    Content = "Упорство",
+                    Id = "6"
+                },
+            }
+        },
+        new Question()
+        {
+            Title = "Худшая\nчерта",
+            Id = "5",
+            Content = "А какая черта худшая?",
+            Variants = new List<Variant>()
+            {
+                new Variant()
+                {
+                    Content = "Робость",
+                    Id = "1"
+                },
+                new Variant()
+                {
+                    Content = "Самовлюбленность",
+                    Id = "2"
+                },
+                new Variant()
+                {
+                    Content = "Безалаберность",
+                    Id = "3"
+                },
+                new Variant()
+                {
+                    Content = "Ранимость",
+                    Id = "4"
+                },
+                new Variant()
+                {
+                    Content = "Холодность",
+                    Id = "5"
+                },
+                new Variant()
+                {
+                    Content = "Нетерпеливость",
+                    Id = "6"
+                },
+            }
+        }
+    };
 
-    string resultsXML = @"<?xml version='1.0' encoding='utf-8'?>
-<ArrayOfResult xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
-<Result>
-<Id>1</Id>
-<Title>Флора</Title>
-<Content>
-  Тихая, скромная и застенчивая девушка.
-  Её лучшие друзья — цветы, иногда кажется, что с ними она чувствует себя увереннее, чем с людьми.
-  Во 2 сезоне у Флоры возникают проблемы из-за нерешительности: вместо того, чтобы просто сделать что-то, она начинает раздумывать, что же случится в случае неудачи, что особенно ярко проявляется в её чувствах к Гелии.
-  Ближе к концу 2 сезона Флора становится более уверенной и получает Чармикс, признавшись Гелии в своих чувствах. Но, судя по всему, явление это временное, потому что в последующих сезонах нерешительность опять становится её визитной карточкой.
-</Content>
-<ImageURL>images/flora.png</ImageURL>
-</Result>
-<Result>
-<Id>2</Id>
-<Title>Блум</Title>
-<Content>
-  Блум любопытная и немножко хитрая (ведь, как признаёт сама Блум, без хитрости она бы не выжила);
-  у неё добрая душа, она всегда готова помочь другим (если видит, что с кем-то поступают несправедливо, не может не вмешаться).
-  Хотя некоторые события доказывают нам обратное, Блум считает себя очень нерешительной и неуверенной в себе;
-  её девиз: «Убеди меня, что я поступаю правильно, и я тебя поцелую».
-  Блум старается побороть свои недостатки, и в этом ей помогают остальные Винкс.
-  В плане чувств, Блум очень ранима, даже малейший намёк на отдаление Ская приводит её в отчаяние или слёзы.
-</Content>
-<ImageURL>images/blum.png</ImageURL>
-</Result>
-<Result>
-<Id>3</Id>
-<Title>Стелла</Title>
-<Content>
-  Эгоистичная, самовлюбленная, уделяет слишком много внимания моде и красоте, но в то же время так и остается той маленькой, закомплексованной, неуверенной в себе девочкой, какой была в детстве.
-  Стелла олицетворяет собой широко распространенный стереотип «глупой блондинки», однако способна на искренние переживания за друзей и близких, а в критических ситуациях способна действовать рационально и находить разумное применение своим силам.
-  Жизнерадостна, открыта и очень артистична.
-</Content>
-<ImageURL>images/stella.png</ImageURL>
-</Result>
-<Result>
-<Id>4</Id>
-<Title>Муза</Title>
-<Content>
-  Муза любит подшучивать над подругами, хотя иногда это бывает чёрным юмором.
-  Вообще юмор, по словам самой феи, сидит у неё внутри, как музыкальный ритм, задающий тон каждому дню её жизни.
-</Content>
-<ImageURL>images/muza.png</ImageURL>
-</Result>
-<Result>
-<Id>5</Id>
-<Title>Текна</Title>
-<Content>
-  Очень горда, поэтому, чтобы не показаться слабой, скрывает свои эмоции.
-  Она рассудительна и осторожна, но при этом также смела и жизнерадостна.
-  Отличается умом и прямолинейностью.
-  Спокойна, иногда кажется холодной и равнодушной.
-</Content>
-<ImageURL>images/tekna.png</ImageURL>
-</Result>
-<Result>
-<Id>6</Id>
-<Title>Лейла</Title>
-<Content>
-  Очень активная и спортивная, она не любит долго высчитывать различные варианты, а предпочитает действовать.
-  Часто она бывает чересчур вспыльчива и опрометчива, а иногда волнуется по пустякам.
-  Есть у Лейлы и слабое место — она боится остаться одна.
-  Зато девушка всегда приходит на помощь тем, кого любит.
-</Content>
-<ImageURL>images/leila.png</ImageURL>
-</Result>
-</ArrayOfResult>";
+    private List<Result> results = new List<Result>()
+    {
+        new Result()
+        {
+            Id="1",
+            Title="Флора",
+            Content=@"      Тихая, скромная и застенчивая девушка.
+      Её лучшие друзья — цветы, иногда кажется, что с ними она чувствует себя увереннее, чем с людьми.
+      Во 2 сезоне у Флоры возникают проблемы из-за нерешительности: вместо того, чтобы просто сделать что-то, она начинает раздумывать, что же случится в случае неудачи, что особенно ярко проявляется в её чувствах к Гелии.
+      Ближе к концу 2 сезона Флора становится более уверенной и получает Чармикс, признавшись Гелии в своих чувствах. Но, судя по всему, явление это временное, потому что в последующих сезонах нерешительность опять становится её визитной карточкой.
+",
+            ImageURL = "images/flora.png"
+        },
+        new Result()
+        {
+            Id="2",
+            Title="Блум",
+            Content=@"      Блум любопытная и немножко хитрая (ведь, как признаёт сама Блум, без хитрости она бы не выжила);
+      у неё добрая душа, она всегда готова помочь другим (если видит, что с кем-то поступают несправедливо, не может не вмешаться).
+      Хотя некоторые события доказывают нам обратное, Блум считает себя очень нерешительной и неуверенной в себе;
+      её девиз: «Убеди меня, что я поступаю правильно, и я тебя поцелую».
+      Блум старается побороть свои недостатки, и в этом ей помогают остальные Винкс.
+      В плане чувств, Блум очень ранима, даже малейший намёк на отдаление Ская приводит её в отчаяние или слёзы.
+",
+            ImageURL = "images/blum.png"
+        },
+        new Result()
+        {
+            Id="3",
+            Title="Стелла",
+            Content=@"      Эгоистичная, самовлюбленная, уделяет слишком много внимания моде и красоте, но в то же время так и остается той маленькой, закомплексованной, неуверенной в себе девочкой, какой была в детстве.
+      Стелла олицетворяет собой широко распространенный стереотип «глупой блондинки», однако способна на искренние переживания за друзей и близких, а в критических ситуациях способна действовать рационально и находить разумное применение своим силам.
+      Жизнерадостна, открыта и очень артистична.
+",
+            ImageURL = "images/stella.png"
+        },
+        new Result()
+        {
+            Id="4",
+            Title="Муза",
+            Content=@"      Муза любит подшучивать над подругами, хотя иногда это бывает чёрным юмором.
+      Вообще юмор, по словам самой феи, сидит у неё внутри, как музыкальный ритм, задающий тон каждому дню её жизни.
+",
+            ImageURL = "images/muza.png"
+        },
+        new Result()
+        {
+            Id="5",
+            Title="Тенка",
+            Content=@"Очень горда, поэтому, чтобы не показаться слабой, скрывает свои эмоции.
+      Она рассудительна и осторожна, но при этом также смела и жизнерадостна.
+      Отличается умом и прямолинейностью.
+      Спокойна, иногда кажется холодной и равнодушной.",
+            ImageURL = "images/tekna.png"
+        },
+        new Result()
+        {
+            Id="6",
+            Title="Лейла",
+            Content=@"Очень активная и спортивная, она не любит долго высчитывать различные варианты, а предпочитает действовать.
+      Часто она бывает чересчур вспыльчива и опрометчива, а иногда волнуется по пустякам.
+      Есть у Лейлы и слабое место — она боится остаться одна.
+      Зато девушка всегда приходит на помощь тем, кого любит.",
+            ImageURL = "images/leila.png"
+        }
+    };
 }
