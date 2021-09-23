@@ -1,0 +1,177 @@
+﻿@page "/"
+@using System.Xml
+@using System.Xml.Serialization
+@inject HttpClient client
+
+<Container Fluid>
+    @if (questions != null && !isResult)
+    {
+        <Steps SelectedStep="@selectedQuestion.Id" SelectedStepChanged="OnSelectedStepChanged">
+            <Items>
+                @foreach (var question in questions)
+                {
+                    <Step Name="@question.Id">
+                        <Text>@question.Title</Text>
+                    </Step>
+                }
+            </Items>
+            <Content>
+                @foreach (var question in questions)
+                {
+                    <StepPanel Name="@question.Id">
+                        <Row Padding="Padding.Is5">
+                            <Column>
+                                <Row>
+                                    <Heading Size="HeadingSize.Is1">
+                                        @question.Content
+                                    </Heading>
+                                </Row>
+                                <Row>
+                                    <RadioGroup TValue="string" Orientation="Orientation.Vertical" @bind-CheckedValue="question.SelectedVariant">
+                                        @foreach (var variant in question.Variants)
+                                        {
+                                            <Radio TValue="string" Value="variant.Id">
+                                                @variant.Content
+                                            </Radio>
+                                        }
+                                    </RadioGroup>
+                                </Row>
+                            </Column>
+                        </Row>
+                    </StepPanel>
+                }
+            </Content>
+        </Steps>
+        <Row Flex="Flex.AlignItems.Center">
+            <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is3.OnTablet">
+                <Button Color="Color.Secondary" Disabled="isFirst" Block Clicked="OnPrev">Предыдущий</Button>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is2.OnDesktop.Is3.OnTablet">
+                <Button Color="Color.Primary" Disabled="isLast || !isSelected" Block Clicked="OnNext">Следующий</Button>
+            </Column>
+            @if (isLast)
+            {
+                <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet">
+                    <Button Color="Color.Success" Block Disabled="!isSelected" Clicked="() => isResult = true">Узнать результат</Button>
+                </Column>
+            }
+        </Row>
+    }
+    else if (isResult)
+    {
+        @if (maxResult != null)
+        {
+            <Row>
+                <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12.OnMobile">
+                    <Card Margin="Margin.Is5.OnDesktop.Is1.OnMobile">
+                        <CardBody>
+                            <CardTitle Size="5">@maxResult.Title</CardTitle>
+                            <CardText>@maxResult.Content</CardText>
+                        </CardBody>
+                        <CardImage Source="@maxResult.ImageURL" Alt="@maxResult.Title" Width="Width.Is50">
+                        </CardImage>
+                    </Card>
+                </Column>
+            </Row>
+        }
+        else
+        {
+            <Heading>Result loading error!</Heading>
+        }
+    }
+    else
+    {
+        <Heading Size="HeadingSize.Is1">
+            Loading XML...
+        </Heading>
+    }
+</Container>
+
+@code {
+    private bool isFirst => selectedQuestion == questions.First();
+    private bool isLast => selectedQuestion == questions.Last();
+    private bool isSelected => !string.IsNullOrWhiteSpace(selectedQuestion.SelectedVariant);
+    private bool isResult = false;
+
+    private List<string> selectedItems => questions.Select(q => q.SelectedVariant).ToList();
+
+    private Result maxResult
+    {
+        get
+        {
+            Dictionary<string, int> resultGroup = new Dictionary<string, int>();
+            foreach (var result in selectedItems)
+            {
+                if (!resultGroup.Keys.Contains(result))
+                {
+                    resultGroup.Add(result, 1);
+                }
+                else
+                {
+                    resultGroup[result]++;
+                }
+            }
+            string id = resultGroup.Aggregate((a, b) => a.Value > b.Value ? a : b).Key;
+            return results.Where(r => r.Id == id).FirstOrDefault();
+        }
+    }
+
+    private List<Question> questions;
+    private List<Result> results;
+
+    private Question selectedQuestion;
+
+    private string questionsURL = "./xml/questions.xml";
+    private string resultsURL = "./xml/results.xml";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var stream = await client.GetStreamAsync(questionsURL);
+        var serializer = new XmlSerializer(typeof(List<Question>));
+        questions = (List<Question>)serializer.Deserialize(stream);
+        stream.Close();
+
+        stream = await client.GetStreamAsync(resultsURL);
+        serializer = new XmlSerializer(typeof(List<Result>));
+        results = (List<Result>)serializer.Deserialize(stream);
+        stream.Close();
+
+
+        string debug = "";
+        foreach (var question in questions)
+        {
+            debug += question + "\n";
+        }
+        Console.WriteLine(debug);
+
+        debug = "";
+        foreach (var result in results)
+        {
+            debug += result + "\n";
+        }
+        Console.WriteLine(debug);
+
+        selectedQuestion = questions.First();
+    }
+
+    private void OnPrev()
+    {
+        if (!isFirst)
+        {
+            selectedQuestion = questions[questions.IndexOf(selectedQuestion) - 1];
+        }
+    }
+
+    private void OnNext()
+    {
+        if (!isLast)
+        {
+            selectedQuestion = questions[questions.IndexOf(selectedQuestion) + 1];
+        }
+    }
+
+    private void OnSelectedStepChanged(string selectedId)
+    {
+
+    }
+}
