@@ -9,7 +9,7 @@
       Во 2 сезоне у Флоры возникают проблемы из-за нерешительности: вместо того, чтобы просто сделать что-то, она начинает раздумывать, что же случится в случае неудачи, что особенно ярко проявляется в её чувствах к Гелии.
       Ближе к концу 2 сезона Флора становится более уверенной и получает Чармикс, признавшись Гелии в своих чувствах. Но, судя по всему, явление это временное, потому что в последующих сезонах нерешительность опять становится её визитной карточкой.
     </Content>
-    <ImageURL>BlazorTestFramework/images/flora.png</ImageURL>
+    <ImageURL>images/flora.png</ImageURL>
   </Result>
   <Result>
     <Id>2</Id>
@@ -22,7 +22,7 @@
       Блум старается побороть свои недостатки, и в этом ей помогают остальные Винкс.
       В плане чувств, Блум очень ранима, даже малейший намёк на отдаление Ская приводит её в отчаяние или слёзы.
     </Content>
-    <ImageURL>BlazorTestFramework/images/blum.png</ImageURL>
+    <ImageURL>images/blum.png</ImageURL>
   </Result>
   <Result>
     <Id>3</Id>
@@ -32,7 +32,7 @@
       Стелла олицетворяет собой широко распространенный стереотип «глупой блондинки», однако способна на искренние переживания за друзей и близких, а в критических ситуациях способна действовать рационально и находить разумное применение своим силам.
       Жизнерадостна, открыта и очень артистична.
     </Content>
-    <ImageURL>BlazorTestFramework/images/stella.png</ImageURL>
+    <ImageURL>images/stella.png</ImageURL>
   </Result>
   <Result>
     <Id>4</Id>
@@ -41,7 +41,7 @@
       Муза любит подшучивать над подругами, хотя иногда это бывает чёрным юмором.
       Вообще юмор, по словам самой феи, сидит у неё внутри, как музыкальный ритм, задающий тон каждому дню её жизни.
     </Content>
-    <ImageURL>BlazorTestFramework/images/muza.png</ImageURL>
+    <ImageURL>images/muza.png</ImageURL>
   </Result>
   <Result>
     <Id>5</Id>
@@ -52,7 +52,7 @@
       Отличается умом и прямолинейностью.
       Спокойна, иногда кажется холодной и равнодушной.
     </Content>
-    <ImageURL>BlazorTestFramework/images/tekna.png</ImageURL>
+    <ImageURL>images/tekna.png</ImageURL>
   </Result>
   <Result>
     <Id>6</Id>
@@ -63,6 +63,6 @@
       Есть у Лейлы и слабое место — она боится остаться одна.
       Зато девушка всегда приходит на помощь тем, кого любит.
     </Content>
-    <ImageURL>BlazorTestFramework/images/leila.png</ImageURL>
+    <ImageURL>images/leila.png</ImageURL>
   </Result>
 </ArrayOfResult>
